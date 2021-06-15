@@ -1,3 +1,5 @@
+from django.contrib.auth.base_user import AbstractBaseUser
+from django.contrib.auth.models import AbstractUser, User
 from django.db import models
 
 
@@ -16,9 +18,10 @@ class EducationLevel(models.Model):
         return self.description
 
 
-class Company(models.Model):
-    username = models.CharField(max_length=50)
-    password = models.CharField(max_length=16)
+class Company(User):
+
+    def __str__(self):
+        return self.username
 
 
 class Candidate(models.Model):
@@ -30,7 +33,9 @@ class Candidate(models.Model):
 
 
 class JobVacancy(models.Model):
-    name = models.CharField(max_length=100)
+    description = models.CharField(max_length=100)
     salary_range = models.ForeignKey(SalaryRange, on_delete=models.CASCADE, default=1)
     requirements = models.TextField(null=True)
     minimum_education = models.ForeignKey(EducationLevel, on_delete=models.CASCADE, default=1)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    number_of_candidates = models.IntegerField(default=0)

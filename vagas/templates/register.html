@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastrar empresa</title>
+</head>
+<body>
+    <form action="{% url 'register' %}" method="post">
+        {% csrf_token %}
+        <fieldset>
+            <label>
+                Nome
+                <input type="text" name="username">
+            </label>
+
+            <label>
+                Senha
+                <input type="text" name="password">
+            </label>
+        </fieldset>
+        <button type="submit">Cadastrar</button>
+    </form>
+</body>
+</html>
