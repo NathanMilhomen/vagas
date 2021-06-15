@@ -19,6 +19,9 @@ class EducationLevel(models.Model):
 
 
 class Company(User):
+    class Meta:
+        verbose_name = 'Company'
+        verbose_name_plural = 'Companys'
 
     def __str__(self):
         return self.username

@@ -5,19 +5,21 @@ from django.http import HttpResponse
 
 from .models import Company
 
+
 # Create your views here.
 
-def index(request):
-    return HttpResponse("Olá, olá, oláaaaaaaaaa")
-
-
 def home(request):
+    return render(request, 'home.html')
+
+
+def dashboard(request):
     user = request.user
-    company = Company.objects.get(id=user.id)
-    print(company.jobvacancy_set.all())
-    data = {
-        'jobs': company.jobvacancy_set.all()
-    }
+    if user:
+        company = Company.objects.get(id=user.id)
+        data = {
+            'jobs': company.jobvacancy_set.all()
+        }
+
     return render(request, 'dashboard.html', data)
 
 
