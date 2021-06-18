@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -24,9 +25,9 @@ SECRET_KEY = 'django-insecure-dqpvrj$n627$b3na0y5!d%b67n$$-)8q^h*#r5+1h3b(^_vr(r
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
+LOGIN_URL='/login/'
 ALLOWED_HOSTS = []
-
+AUTH_USER_MODEL = 'vagas.Customer'
 
 # Application definition
 

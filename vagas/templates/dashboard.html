@@ -1,14 +1,121 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    <h1>Olá, {{ user.username }}</h1>
-    <h2>Suas vagas</h2>
-    {% for job in jobs %}
-        <p>{{ job.description }}</p>
-    {% endfor %}
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+    <main>
+        <h1>Olá, {{ user.name }}</h1>
+        <h2>Suas vagas</h2>
+        <div>
+            <p><small><a href="{% url 'job_register' %}">Cadastrar</a></small></p>
+
+
+            {% if jobs %}
+                <canvas id="vacancy_chart" width="300" height="50"></canvas>
+                <canvas id="application_chart" width="300" height="50"></canvas>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Vaga</th>
+                        <th>Número de candidatos</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for job in jobs %}
+                        <tr>
+                            <td>{{ job.title }}</td>
+                            <td>{{ job.number_of_candidates }}</td>
+                            <td><a class="btn" href="{% url 'company_job_detail' job.id %}">Detalhes</a></td>
+                            <td><a class="btn btn-danger" href="{% url 'job_delete' job.id %}">Excluir</a></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+            {% else %}
+                <small>Você não tem vagas cadastradas ainda</small>
+            {% endif %}
+
+        </div>
+
+    </main>
+    {% if months %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.3.2/dist/chart.js"></script>
+    <script>
+        var ctx = document.getElementById('vacancy_chart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: {{ months|safe }},
+                datasets: [{
+                    label: 'Vagas por mês',
+                    data: {{ numbers_of_vacancy|safe }},
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+    <script>
+        var ctx = document.getElementById('application_chart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: {{ months|safe }},
+                datasets: [{
+                    label: 'Candidatura por Mês',
+                    data: {{ numbers_of_candidates|safe }},
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+    {% endif %}
+{% endblock %}
+
+

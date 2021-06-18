@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <main>
+        <div>
+        <div>
+            <h3>{{ job.company.name }}, {{ job.title }}</h3>
+            <p>{{ job.requirements }}</p>
+            <p>{{ job.salary_range }}</p>
+            <p>{{ job.minimum_education }}</p>
+        </div>
+        <lr/>
+            {% if created is False %}
+                <div class="alert alert-warning" role="alert">
+                      Você já se candidatou a esta vaga!
+                </div>
+            {% endif %}
+            <form action="{% url 'job_detail' job.id %}" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="name">Nome completo</label>
+                    <input class="form-control" type="text" name="name" id="name">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input class="form-control" type="text" name="email" id="email">
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Telefone</label>
+                    <input class="form-control" type="text" name="phone" id="phone">
+                </div>
+
+                <div class="form-group">
+                    <label for="salary">Pretensão salarial</label>
+                    <input class="form-control" type="text" name="salary" id="salary">
+                </div>
+
+                <div class="form-group">
+                    <label for="experience">Experiência</label>
+                    <textarea class="form-control" name="experience" id="experience"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="education">Escolaridade</label>
+                    <select class="custom-select" name="education" id="education">
+                        {% for index, education in educations %}
+                            <option value={{ index }}>{{ education.description }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn">Candidatar-se</button>
+            </form>
+        </div>
+    </main>
+{% endblock %}

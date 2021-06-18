@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <main>
+    <form action="{% url 'job_register' %}" method="post">
+    {% csrf_token %}
+        <input type="hidden" name="id" value="{{ job.id }}">
+        <div class="form-group">
+            <label for="title">Título</label>
+            <input class="form-control" type="text" name="title" id="title" value="{{ job.title }}">
+        </div>
+        <div class="form-group">
+            <label for="salary_range">Faixa salarial</label>
+            <select class="custom-select" name="salary_range" id="salary_range">
+                {% for index, salary_range in salaries %}
+                    <option {% if job.salary_range_id == salary_range.id %} selected {% endif %}
+                            value={{ index }}>{{ salary_range.description }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="education">Escolaridade Mínima</label>
+            <select class="custom-select" name="education" id="education">
+                {% for index, education in educations %}
+                    <option {% if job.minimum_education_id == education.id %} selected {% endif %}
+                            value={{ index }}>{{ education.description }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    <div class="form-grouo">
+        <label for="requirements">Requisitos</label>
+        <textarea rows="5" class="form-control" name="requirements" id="requirements">{{ job.requirements }}</textarea>
+    </div>
+
+    <button class="btn" type="submit">Salvar</button>
+    </form>
+    </main>
+{% endblock %}

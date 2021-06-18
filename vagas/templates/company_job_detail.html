@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <main>
+        <h2>{{ job.title }}</h2>
+        <div class="mt-3">
+            <form>
+                <a href="{% url 'job_update' job.id %}" class="btn">Editar vaga</a>
+                <a href="{% url 'job_delete' job.id %}" class="btn btn-danger">Excluir Vaga</a>
+            </form>
+        </div>
+
+        <div class="mt-3">
+            {% if candidates %}
+                {% for candidate in candidates %}
+                    <div class="card mb-3" style="width: 100%;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ candidate.name }}</h5>
+                            <p class="card-text text-truncate">{{ candidate.experience }}</p>
+                            <p class="card-text">{{ candidate.desired_salary }}</p>
+                            <p class="card-text ">{{ candidate.education_level }}</p>
+                            <small class="card-text">{{ candidate.email }}</small>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>Nenhum candidato inscrito nesta vaga ainda</p>
+            {% endif %}
+        </div>
+    </main>
+{% endblock %}
