@@ -50,10 +50,3 @@ class LoginTestCase(TestCase):
         self.assertIsNotNone(candidate)
 
 
-    def test_date_couting(self):
-
-
-        jobs = JobVacancy.objects.all()
-        print(jobs)
-        print(jobs.count())
-
